@@ -1,0 +1,34 @@
+Determine
+if a data set exists and conditionally execute additional steps
+/*If you attempt to print or manipulate the non-existent data set */
+/*an error will be generated.  To prevent the error, check to see */
+/*if the data set exists, then conditionally execute the step(s). */
+
+
+%macro
+checkds(dsn);
+
+  %if %sysfunc(exist(&dsn)) %then %do;
+
+    proc print data = &dsn;
+
+    run;
+
+  %end;
+
+  %else %do;
+
+    data _null_;
+
+      file print;
+
+      put #3 @10 "Data set &dsn. does
+not exist";
+
+    run;
+
+  %end;
+
+%mend
+checkds;
+
